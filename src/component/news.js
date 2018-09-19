@@ -22,7 +22,8 @@ export default class Feed extends Component {
   }
   
   render() {
-    const data = this.props.feed_data;
+    const data = this.props.news_data;
+    
     return (
       <TouchableWithoutFeedback onPress={ () => Linking.openURL(data.url) }>
         <Card key={this.props.key} >

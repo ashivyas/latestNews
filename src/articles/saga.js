@@ -1,6 +1,8 @@
 import { NewsApi } from "../api/newsApi";
 import {
   FETCH_NEWS_LIST,
+  FETCH_SOURCE_LIST,
+  UPDATE_SOURCE,
   UPDATE_QUERY,
   UPDATE_PAGE,
   UPDATE_LOADING,
@@ -24,6 +26,19 @@ function* fetchNewsList (action) {
   }
 }
 
+// Fetch the source list based on the country
+function* fetchSourceList (action) {
+  try {
+    const data = yield call(NewsApi.getSourceList)
+    const sources = data.data.sources || []
+    let source = sources[0].id || "";
+    yield put({ type: FETCH_SOURCE_LIST, sources})
+    yield put({ type: UPDATE_SOURCE, source})
+    yield call(fetchNewsList)
+   } catch (e) {
+    console.log("error",e)
+  }
+}
 
 // Common method to update the filter and again fetch the news based on the filters
 function* updateFilter(action){
@@ -40,6 +55,7 @@ function* updateFilter(action){
 }
 
 export function* watchFilter() {
+  yield takeEvery(UPDATE_SOURCE, updateFilter);
   yield takeEvery(UPDATE_QUERY, updateFilter);
   yield takeEvery(UPDATE_PAGE, updateFilter);
 }
@@ -47,6 +63,7 @@ export function* watchFilter() {
 function* newsSaga () {
   yield all([
     fork(fetchNewsList),
+    fork(fetchSourceList),
     fork(watchFilter)
   ]);
 }

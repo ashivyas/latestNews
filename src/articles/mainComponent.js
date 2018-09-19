@@ -1,21 +1,12 @@
 import React, {Component} from 'react';
 import {View,StatusBar,FlatList} from 'react-native';
 import {Container, Content, Spinner} from 'native-base';
-import News from '../../component/news.js';
-import Header from '../../component/top.js';
-
-export const containerStyle = (data) => {
-  if (data !== undefined && data.length > 0){
-    return {}
-  }else{
-    return {flex: 1, justifyContent: 'center',alignItems: 'center'}
-  }
-}
-
-export const isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
-  const paddingToBottom = 10;
-  return layoutMeasurement.height + contentOffset.y >= contentSize.height - paddingToBottom;
-}
+import {containerStyle, isCloseToBottom} from '../config/helper.js';
+import Loading from '../component/loading.js';
+import NoFeed from '../component/noFeed.js';
+import News from '../component/news.js';
+import Header from '../component/top.js';
+import Filter from '../component/filter.js';
 
 export default class MainComponent extends Component {
   constructor(props) {
@@ -23,7 +14,9 @@ export default class MainComponent extends Component {
   }
 
   componentDidMount() {
+    this.props.updateLoading(true)
     this.props.updatePage(1)
+    this.props.fetchSourceList()
   }
 
   setPagination(){
@@ -41,7 +34,13 @@ export default class MainComponent extends Component {
             updateQuery={this.props.updateQuery}
             emptyNewsList={this.props.emptyNewsList}
           />
+          <Filter 
+            source={this.props.source} 
+            updateSource={this.props.updateSource}
+            emptyNewsList={this.props.emptyNewsList}
+          />
         </View>
+        {(this.props.loading && this.props.news.length <1)? <Loading/> :
           <Content
             contentContainerStyle = {containerStyle(this.props.news)}
             onScroll={({nativeEvent}) => {
@@ -50,7 +49,8 @@ export default class MainComponent extends Component {
               }
             }}
           >
-          <StatusBar />
+          <StatusBar backgroundColor={"#F00"}/>
+          {(this.props.news !== undefined && this.props.news.length > 0)? 
             <FlatList
               data={this.props.news}
               keyExtractor={(item, index) => item.id}
@@ -58,6 +58,8 @@ export default class MainComponent extends Component {
                 return (<News key={index} news_data={item.item}/>)
               }}
             />
+             : 
+            <NoFeed message="Fetching data..."/> 
           }
           {(!this.props.pagination && this.props.news.length > 0) ? <Spinner /> : null}
           </Content>}

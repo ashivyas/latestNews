@@ -9,8 +9,8 @@
 import React, {Component} from 'react';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react'
-import configureStore from './src/reducer/store'
-import News from './src/screens/news/index.js'
+import configureStore from './src/storage/store'
+import News from './src/articles/index.js'
 
 const { persistor, store } = configureStore();
 

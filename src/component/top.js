@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Header, Item, Input, Icon} from 'native-base';
+import {View,StatusBar} from 'react-native'
+import { Container,Header, Item, Input, Icon} from 'native-base';
 
 export default class TopCompoent extends Component {
   onTextChange = (query) =>{
