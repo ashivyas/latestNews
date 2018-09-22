@@ -7,5 +7,5 @@ A news application with React Native.
 
   - git clone url
   - npm install
-   - react-native run-android
+  - react-native run-android
 

@@ -1,10 +1,15 @@
 {
-  "name": "goodNews",
+  "name": "latestNews",
   "version": "0.0.1",
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest"
+  },
+  "rnpm": {
+    "assets": [
+      "./assets/fonts/"
+    ]
   },
   "dependencies": {
     "axios": "^0.18.0",
@@ -13,6 +18,7 @@
     "native-base": "^2.8.0",
     "react": "16.5.0",
     "react-native": "0.57.0",
+    "react-native-app-intro-slider": "^1.0.1",
     "react-native-elements": "^0.19.1",
     "react-native-vector-icons": "^5.0.0",
     "react-navigation": "^2.14.2",

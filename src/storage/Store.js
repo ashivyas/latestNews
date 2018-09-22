@@ -1,9 +1,9 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 import { persistStore, persistCombineReducers, autoRehydrate } from 'redux-persist'
 import storage from 'redux-persist/es/storage' 
-import newsSaga from '../articles/saga';
+import newsSaga from '../articles/Saga';
 import createSagaMiddleware from 'redux-saga';
-import rootReducer from './rootReducer'
+import rootReducer from './RootReducer'
 
 const config = {
   key: 'root',
